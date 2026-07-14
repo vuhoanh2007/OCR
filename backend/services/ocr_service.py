@@ -55,6 +55,15 @@ class OCRService:
 
     def process_back(self, image_bytes: bytes) -> OCRResponse:
         start_time = time.time()
+        
+        # Decode image
+        nparr = np.frombuffer(image_bytes, np.uint8)
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        
+        is_valid, msg = ImageValidator.validate(img)
+        if not is_valid:
+            return OCRResponse(success=False, confidence=0.0, processing_time=0.0, data={}, error=f"Back image error: {msg}")
+            
         proc_time = time.time() - start_time
         data = BackOCRData(
             characteristics="Nốt ruồi cách 2cm...",
