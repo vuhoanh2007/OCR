@@ -1,0 +1,8 @@
+import re
+
+class TextCleaner:
+    @staticmethod
+    def clean_text(text: str) -> str:
+        text = text.replace('\n', ' ').strip()
+        text = re.sub(r'\s+', ' ', text)
+        return text
